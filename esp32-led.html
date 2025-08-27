@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESP32-CAM LED Control 🌍</title>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <style>
+    body { text-align:center; font-family: Arial; margin-top: 50px; }
+    button { font-size: 20px; padding: 15px 30px; margin: 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>ESP32-CAM LED Control</h2>
+  <button onclick="send('ON')">Turn ON</button>
+  <button onclick="send('OFF')">Turn OFF</button>
+
+  <script>
+    // Connect to HiveMQ public broker over WebSockets
+    const client = mqtt.connect('wss://broker.hivemq.com:8884/mqtt');
+
+    client.on('connect', function () {
+      console.log('Connected to broker');
+      alert('Connected to MQTT Broker!');
+    });
+
+    function send(msg) {
+      client.publish('esp32/led', msg); // Topic must match ESP32 code
+      console.log('Sent:', msg);
+      alert('Sent: ' + msg);
+    }
+  </script>
+</body>
+</html>
